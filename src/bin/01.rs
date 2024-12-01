@@ -1,70 +1,44 @@
 advent_of_code::solution!(1);
 
-pub fn part_one(input: &str) -> Option<u32> {
-    let split_input_by_line = input.split("\n");
-    let mut left_side: Vec<i32> = Vec::new();
-    let mut right_side: Vec<i32> = Vec::new();
+fn parse_input(input: &str) -> (Vec<i32>, Vec<i32>) {
+    let mut left_side = Vec::new();
+    let mut right_side = Vec::new();
 
-    for ele in split_input_by_line {
-        if ele.is_empty() {
-            continue;
+    for line in input.lines().filter(|l| !l.is_empty()) {
+        let parts: Vec<&str> = line.split("   ").map(|s| s.trim()).collect();
+        if parts.len() == 2 {
+            left_side.push(parts[0].parse::<i32>().unwrap());
+            right_side.push(parts[1].parse::<i32>().unwrap());
         }
-
-        let mut split_element = ele.split("   ");
-        let left_element = split_element.next().unwrap();
-        let right_element = split_element.next().unwrap();
-
-        left_side.push(left_element.parse::<i32>().unwrap());
-        right_side.push(right_element.parse::<i32>().unwrap());
     }
 
     left_side.sort();
     right_side.sort();
+    (left_side, right_side)
+}
 
-    let mut sum = 0;
-    for i in 0..left_side.len() {
-        let diff = i32::abs(left_side.get(i).unwrap() - right_side.get(i).unwrap());
-        sum += diff;
-    }
-
-    Some(sum as u32)
+pub fn part_one(input: &str) -> Option<u32> {
+    let (left_side, right_side) = parse_input(input);
+    Some(
+        left_side
+            .iter()
+            .zip(right_side.iter())
+            .map(|(l, r)| i32::abs(l - r) as u32)
+            .sum(),
+    )
 }
 
 pub fn part_two(input: &str) -> Option<u32> {
-    let split_input_by_line = input.split("\n");
-    let mut left_side: Vec<i32> = Vec::new();
-    let mut right_side: Vec<i32> = Vec::new();
-
-    for ele in split_input_by_line {
-        if ele.is_empty() {
-            continue;
-        }
-
-        let mut split_element = ele.split("   ");
-        let left_element = split_element.next().unwrap();
-        let right_element = split_element.next().unwrap();
-
-        left_side.push(left_element.parse::<i32>().unwrap());
-        right_side.push(right_element.parse::<i32>().unwrap());
-    }
-
-    left_side.sort();
-    right_side.sort();
-
-    let mut total = 0;
-    for i in 0..left_side.len() {
-        let left = left_side.get(i).unwrap();
-        let mut found = 0;
-
-        for j in 0..right_side.len() {
-            let right = right_side.get(j).unwrap();
-            if left == right {
-                found += 1;
-            }
-        }
-        total += left * found;
-    }
-    Some(total as u32)
+    let (left_side, right_side) = parse_input(input);
+    Some(
+        left_side
+            .iter()
+            .map(|&left| {
+                let count = right_side.iter().filter(|&&right| left == right).count();
+                (left * count as i32) as u32
+            })
+            .sum(),
+    )
 }
 
 #[cfg(test)]
@@ -74,14 +48,12 @@ mod tests {
     #[test]
     fn test_part_one() {
         let result = part_one(&advent_of_code::template::read_file("examples", DAY));
-        println!("{:?}", result);
         assert_eq!(result, Some(11));
     }
 
     #[test]
     fn test_part_two() {
         let result = part_two(&advent_of_code::template::read_file("examples", DAY));
-        println!("{:?}", result);
         assert_eq!(result, Some(31));
     }
 }
