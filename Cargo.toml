@@ -10,6 +10,15 @@ publish = false
 [lib]
 doctest = false
 
+[profile.release]
+opt-level = 3
+debug = false
+rpath = false
+lto = "fat"
+panic = 'abort'
+codegen-units = 1
+incremental = false
+
 [profile.dhat]
 inherits = "release"
 debug = 1
