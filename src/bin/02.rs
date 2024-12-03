@@ -2,11 +2,16 @@ use std::process::exit;
 
 advent_of_code::solution!(2);
 
-pub fn part_one(input: &str) -> Option<u32> {
+fn parse_input(input: &str) -> Vec<Vec<i32>> {
     let mut input_vec: Vec<Vec<i32>> = Vec::new();
     input.lines().for_each(|line| {
         input_vec.push(line.split_whitespace().map(|x| x.parse::<i32>().unwrap()).collect());
     });
+    input_vec
+}
+
+pub fn part_one(input: &str) -> Option<u32> {
+    let input_vec = parse_input(input);
 
     let mut total = 0;
 
@@ -14,7 +19,7 @@ pub fn part_one(input: &str) -> Option<u32> {
     for ele in input_vec {
         let is_ascending = ele.windows(2).all(|w| w[0] < w[1]);
         let is_descending = ele.windows(2).all(|w| w[0] > w[1]);
-        
+
         if !is_ascending && !is_descending {
             continue;
         }
@@ -32,10 +37,7 @@ pub fn part_one(input: &str) -> Option<u32> {
 }
 
 pub fn part_two(input: &str) -> Option<u32> {
-    let mut input_vec: Vec<Vec<i32>> = Vec::new();
-    input.lines().for_each(|line| {
-        input_vec.push(line.split_whitespace().map(|x| x.parse::<i32>().unwrap()).collect());
-    });
+    let input_vec = parse_input(input);
 
     let mut total = 0;
 
@@ -90,6 +92,6 @@ mod tests {
     #[test]
     fn test_part_two() {
         let result = part_two(&advent_of_code::template::read_file("examples", DAY));
-        assert_eq!(result, None);
+        assert_eq!(result, Some(4));
     }
 }
