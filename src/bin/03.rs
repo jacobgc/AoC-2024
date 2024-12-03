@@ -14,12 +14,8 @@ pub fn calculate_total_from_regex(regex: Regex, input: &str) -> u32 {
 
 pub fn part_one(input: &str) -> Option<u32> {
     let re = Regex::new(r"mul\((\d{1,3}),(\d{1,3})\)").unwrap();
-    let mut total = 0;
-    for line in input.lines() {
-        total += calculate_total_from_regex(re.clone(), line);
-    }
 
-    Some(total)
+    Some(calculate_total_from_regex(re.clone(), input))
 }
 
 pub fn part_two(input: &str) -> Option<u32> {
