@@ -1,5 +1,3 @@
-use std::process::exit;
-
 advent_of_code::solution!(2);
 
 fn parse_input(input: &str) -> Vec<Vec<i32>> {
@@ -48,7 +46,7 @@ pub fn part_two(input: &str) -> Option<u32> {
         if is_ascending || is_descending {
             let is_each_element_safe = ele.windows(2).all(|w| {
                 let diff = i32::abs(w[1] - w[0]);
-                diff >= 1 && diff <= 3
+                (1..=3).contains(&diff)
             });
             if is_each_element_safe {
                 total += 1;
