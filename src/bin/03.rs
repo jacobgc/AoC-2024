@@ -13,7 +13,7 @@ pub fn calculate_total_from_regex(regex: Regex, input: &str) -> u32 {
 }
 
 pub fn part_one(input: &str) -> Option<u32> {
-    let re = Regex::new(r"mul\(([0-9]*),([0-9]*)\)").unwrap();
+    let re = Regex::new(r"mul\((\d{1,3}),(\d{1,3})\)").unwrap();
     let mut total = 0;
     for line in input.lines() {
         total += calculate_total_from_regex(re.clone(), line);
@@ -23,7 +23,7 @@ pub fn part_one(input: &str) -> Option<u32> {
 }
 
 pub fn part_two(input: &str) -> Option<u32> {
-    let re = Regex::new(r"mul\(([0-9]*),([0-9]*)\)").unwrap();
+    let re = Regex::new(r"mul\((\d{1,3}),(\d{1,3})\)").unwrap();
     let control_re = Regex::new(r"(do|don't)\(\)").unwrap();
 
     let mut total = 0;
