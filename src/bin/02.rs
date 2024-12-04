@@ -24,7 +24,7 @@ pub fn part_one(input: &str) -> Option<u32> {
 
         let is_each_element_safe = ele.windows(2).all(|w| {
             let diff = i32::abs(w[1] - w[0]);
-            diff >= 1 && diff <= 3
+            (1..=3).contains(&diff)
         });
         if is_each_element_safe{
             total+=1;
@@ -64,7 +64,7 @@ pub fn part_two(input: &str) -> Option<u32> {
             if is_ascending || is_descending {
                 let is_each_element_safe = temp.windows(2).all(|w| {
                     let diff = i32::abs(w[1] - w[0]);
-                    diff >= 1 && diff <= 3
+                    (1..=3).contains(&diff)
                 });
                 if is_each_element_safe {
                     total += 1;

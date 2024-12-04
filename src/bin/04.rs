@@ -8,7 +8,7 @@ pub fn part_one(input: &str) -> Option<u32> {
 
     let rows = grid.len();
     let cols = grid[0].len();
-    let target = vec!['X', 'M', 'A', 'S'];
+    let target = ['X', 'M', 'A', 'S'];
     let mut count = 0;
 
     // Check all possible starting positions
